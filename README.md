@@ -1,16 +1,16 @@
-# chat_app
+# Chat App
 
-A new Flutter project.
+Flutter Chat App
 
-## Getting Started
+## 🔐 Firebase Setup
 
-This project is a starting point for a Flutter application.
+**IMPORTANT**: Firebase configuration files are not included in version control.
 
-A few resources to get you started if this is your first Flutter project:
+### Setup Steps:
+1. Download `google-services.json` from Firebase Console
+2. Place in `android/app/google-services.json`
+3. Download `GoogleService-Info.plist` from Firebase Console
+4. Place in `ios/Runner/GoogleService-Info.plist`
+5. Run `flutterfire configure` to generate `firebase_options.dart`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Never commit these files to Git!**
