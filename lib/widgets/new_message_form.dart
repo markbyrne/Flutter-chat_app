@@ -18,20 +18,27 @@ class _NewMessageFormState extends State<NewMessageForm> {
     _messageController.dispose();
   }
 
-  void _submitMessage(){
+  void _submitMessage() async {
     final enteredText = _messageController.text;
 
     if (enteredText.trim().isEmpty){
       return;
     }
 
+    _messageController.clear();
+    FocusScope.of(context).unfocus();
+
+    final user = FirebaseAuth.instance.currentUser!;
+    final userData = await FirebaseFirestore.instance
+                  .collection('users').doc(user.uid).get();
+
     FirebaseFirestore.instance.collection('chat').add({
-      'userId' : FirebaseAuth.instance.currentUser!.uid,
+      'userId' : user.uid,
       'createdAt' : Timestamp.now(),
       'text' : enteredText,
+      'username' : userData.data()!['username'],
+      'image_url' : userData.data()!['image_url'],
     });
-
-    _messageController.clear();
   }
 
   @override

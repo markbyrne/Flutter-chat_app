@@ -76,6 +76,8 @@ class _AuthScreenState extends State<AuthScreen> {
               'email': _enteredEmail,
               'image_url': imageUrl,
             });
+
+        FirebaseAuth.instance.currentUser!.sendEmailVerification();
       }
     } on FirebaseAuthException catch (e) {
       // ignore: use_build_context_synchronously

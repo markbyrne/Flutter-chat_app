@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,10 +15,63 @@ class UserImagePicker extends StatefulWidget {
 class _UserImagePickerState extends State<UserImagePicker> {
   File? _pickedImageFile;
 
-  void _pickImage() async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 50, maxWidth: 150);
+  Future<ImageSource?> _pickImageSource() {
+    return showModalBottomSheet<ImageSource?>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.photo_library, color: Theme.of(context).colorScheme.primary),
+                  title: const Text('Gallery'),
+                  onTap: () {
+                    Navigator.of(ctx).pop(ImageSource.gallery);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.camera_alt, color: Theme.of(context).colorScheme.primary),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    Navigator.of(ctx).pop(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.cancel, color: Colors.grey),
+                  title: const Text('Cancel'),
+                  onTap: () {
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-    if (pickedImage == null){
+  void _pickImage() async {
+    final ImageSource? imageSrc = kIsWeb
+        ? ImageSource.gallery
+        : await _pickImageSource();
+    if (imageSrc == null) {
+      return;
+    }
+
+    final pickedImage = await ImagePicker().pickImage(
+      source: imageSrc,
+      imageQuality: 50,
+      maxWidth: 150,
+    );
+
+    if (pickedImage == null) {
       return;
     }
 
@@ -29,15 +83,28 @@ class _UserImagePickerState extends State<UserImagePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      CircleAvatar(
-        radius: 40,
-        backgroundColor: const Color.fromARGB(184, 205, 205, 205),
-        foregroundImage: _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
-        backgroundImage: Image.asset('assets/images/material-symbols-contacts-product.png', color: Theme.of(context).colorScheme.onSurface,).image,
-      ),
-      TextButton.icon(onPressed: _pickImage, icon: const Icon(Icons.image), label: Text('Add Image', style: TextStyle(color: Theme.of(context).colorScheme.primary),))
-    ],
+    return Column(
+      children: [
+        CircleAvatar(
+          radius: 40,
+          backgroundColor: const Color.fromARGB(184, 205, 205, 205),
+          foregroundImage: _pickedImageFile != null
+              ? FileImage(_pickedImageFile!)
+              : null,
+          backgroundImage: Image.asset(
+            'assets/images/material-symbols-contacts-product.png',
+            color: Theme.of(context).colorScheme.onSurface,
+          ).image,
+        ),
+        TextButton.icon(
+          onPressed: _pickImage,
+          icon: const Icon(Icons.image),
+          label: Text(
+            'Add Image',
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          ),
+        ),
+      ],
     );
   }
 }
