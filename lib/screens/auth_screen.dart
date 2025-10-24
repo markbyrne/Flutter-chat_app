@@ -1,10 +1,11 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:chat_app/widgets/user_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart' show XFile;
 
 final _firebase = FirebaseAuth.instance;
 
@@ -21,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
   String _enteredUsername = '';
   String _enteredEmail = '';
   String _enteredPassword = '';
-  File? _selectedImage;
+  XFile? _selectedImage;
   bool _imageError = false;
   bool _isAuthenticating = false;
 
@@ -64,7 +65,13 @@ class _AuthScreenState extends State<AuthScreen> {
             .ref()
             .child('user_images')
             .child('${userCredential.user!.uid}.jpg');
-        await storageRef.putFile(_selectedImage!);
+
+        final Uint8List imageData = await _selectedImage!.readAsBytes();
+        await storageRef.putData(
+          imageData,
+          SettableMetadata(contentType: 'image/jpeg'),
+        );
+        // await storageRef.putFile(_selectedImage!);
 
         final imageUrl = await storageRef.getDownloadURL();
 
@@ -122,7 +129,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       children: [
                         if (!_isLoginMode)
                           UserImagePicker(
-                            onPickedImage: (File img) {
+                            onPickedImage: (XFile img) {
                               _selectedImage = img;
                               if (_imageError) {
                                 setState(() {

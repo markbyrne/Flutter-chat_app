@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
-  final void Function(File) onPickedImage;
+  final void Function(XFile) onPickedImage;
   const UserImagePicker({super.key, required this.onPickedImage});
 
   @override
@@ -13,7 +11,7 @@ class UserImagePicker extends StatefulWidget {
 }
 
 class _UserImagePickerState extends State<UserImagePicker> {
-  File? _pickedImageFile;
+  XFile? _pickedImageFile;
 
   Future<ImageSource?> _pickImageSource() {
     return showModalBottomSheet<ImageSource?>(
@@ -76,7 +74,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
     }
 
     setState(() {
-      _pickedImageFile = File(pickedImage.path);
+      _pickedImageFile = pickedImage;
     });
     widget.onPickedImage(_pickedImageFile!);
   }
@@ -89,7 +87,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
           radius: 40,
           backgroundColor: const Color.fromARGB(184, 205, 205, 205),
           foregroundImage: _pickedImageFile != null
-              ? FileImage(_pickedImageFile!)
+              ? NetworkImage(_pickedImageFile!.path)
               : null,
           backgroundImage: Image.asset(
             'assets/images/material-symbols-contacts-product.png',
