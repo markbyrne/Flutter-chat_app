@@ -2,6 +2,8 @@ import 'package:chat_app/widgets/message_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:profanity_filter/profanity_filter.dart';
+
 
 class MessagesDisplay extends StatelessWidget {
   const MessagesDisplay({super.key});
@@ -9,6 +11,7 @@ class MessagesDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authenticatedUser = FirebaseAuth.instance.currentUser!;
+    final filter = ProfanityFilter();
 
     return StreamBuilder(
       stream: FirebaseFirestore.instance
@@ -48,21 +51,22 @@ class MessagesDisplay extends StatelessWidget {
 
             final isAuthUser = currentMessageUID == authenticatedUser.uid;
 
+            // censor bad input
+            final text = filter.censor(message['text']);
+
             if (nextUserSame) {
               return MessageBubble.next(
-                message: message['text'],
+                message: text,
                 isMe: isAuthUser,
               );
             } else {
               return MessageBubble.first(
                 userImage: message['image_url'],
                 username: message['username'],
-                message: message['text'],
+                message: text,
                 isMe: isAuthUser,
               );
             }
-
-            // TODO censor
           },
         );
       },

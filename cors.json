@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://chat-app-rugburn.web.app"],
+    "method": ["GET", "POST", "PUT", "HEAD"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type", "x-goog-meta-*"]
+  }
+]

@@ -1,1 +1,71 @@
-{"hosting":{"public":"build/web","ignore":["firebase.json","**/.*","**/node_modules/**"],"rewrites":[{"source":"**","destination":"/index.html"}]},"flutter":{"platforms":{"android":{"default":{"projectId":"chat-app-rugburn","appId":"1:412877056691:android:b20eb7157ab7b8199bdec6","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"chat-app-rugburn","appId":"1:412877056691:ios:ac8d471c17d43df59bdec6","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"chat-app-rugburn","appId":"1:412877056691:ios:ac8d471c17d43df59bdec6","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"chat-app-rugburn","configurations":{"android":"1:412877056691:android:b20eb7157ab7b8199bdec6","ios":"1:412877056691:ios:ac8d471c17d43df59bdec6","macos":"1:412877056691:ios:ac8d471c17d43df59bdec6","web":"1:412877056691:web:c940e6357a1036b29bdec6","windows":"1:412877056691:web:5c1720b5941d51249bdec6"}}}}}}
+{
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "chat-app-rugburn",
+          "appId": "1:412877056691:android:b20eb7157ab7b8199bdec6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "chat-app-rugburn",
+          "appId": "1:412877056691:ios:ac8d471c17d43df59bdec6",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "chat-app-rugburn",
+          "appId": "1:412877056691:ios:ac8d471c17d43df59bdec6",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "chat-app-rugburn",
+          "configurations": {
+            "android": "1:412877056691:android:b20eb7157ab7b8199bdec6",
+            "ios": "1:412877056691:ios:ac8d471c17d43df59bdec6",
+            "macos": "1:412877056691:ios:ac8d471c17d43df59bdec6",
+            "web": "1:412877056691:web:c940e6357a1036b29bdec6",
+            "windows": "1:412877056691:web:5c1720b5941d51249bdec6"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+      ],
+      "source": "functions"
+    }
+  ]
+}
